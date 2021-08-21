@@ -1,14 +1,11 @@
 package co.com.ies.pruebas.webservice;
 
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.security.SecureRandom;
 import java.util.Calendar;
 import java.util.Optional;
-import java.util.Random;
 
 @Component
 public class ProcessorDelayedRedis {
@@ -17,7 +14,10 @@ public class ProcessorDelayedRedis {
 
     private final String hostAddress;
 
-    public ProcessorDelayedRedis(GreetingRepository greetingRepository) {
+    private final FinishedTasckRedis finishedTasck;
+
+    public ProcessorDelayedRedis(GreetingRepository greetingRepository, FinishedTasckRedis finishedTasck) {
+        this.finishedTasck = finishedTasck;
         String hostAddress1;
         this.greetingRepository = greetingRepository;
         try {
@@ -27,6 +27,10 @@ public class ProcessorDelayedRedis {
             hostAddress1 = "no found";
         }
         this.hostAddress = hostAddress1;
+    }
+
+    public void processElement(GreetingPendingTask task) {
+        processElement(task.getDataTask());
     }
 
     public void processElement(Greeting greeting) {
@@ -47,6 +51,7 @@ public class ProcessorDelayedRedis {
 
             greetingRepository.save(greeting);
             greetingRepository.flush();
+            finishedTasck.add(greeting);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

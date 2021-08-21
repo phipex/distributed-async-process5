@@ -57,6 +57,16 @@ public abstract class AbstractPendingTask <DataTaskType extends Serializable> im
     }
 
     @Override
+    public String toString() {
+        return "AbstractPendingTask{" +
+                "dataTask=" + dataTask +
+                ", ipReserved='" + ipReserved + '\'' +
+                ", timeMillReserved=" + timeMillReserved +
+                ", finalized=" + finalized +
+                '}';
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hash(getId());
     }

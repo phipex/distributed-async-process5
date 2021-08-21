@@ -10,4 +10,14 @@ public class GreetingPendingTask extends AbstractPendingTask<Greeting>{
     public Long getId() {
         return this.getDataTask().getId();
     }
+
+    @Override
+    public String toString() {
+        return "GreetingPendingTask{" +
+        "dataTask=" + getDataTask() +
+                ", ipReserved='" + getIpReserved() + '\'' +
+                ", timeMillReserved=" + getTimeMillReserved() +
+                ", finalized=" + isFinalized() +
+                '}';
+    }
 }

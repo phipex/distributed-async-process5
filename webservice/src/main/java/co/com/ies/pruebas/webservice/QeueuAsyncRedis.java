@@ -1,7 +1,6 @@
 package co.com.ies.pruebas.webservice;
 
 import org.redisson.api.*;
-import org.redisson.client.codec.Codec;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -37,7 +36,7 @@ public class QeueuAsyncRedis  extends QueueAsyncAbstract<GreetingPendingTask> {
         if(noContains){
             queue.add(element);
         }else{
-            System.out.println("QeueuAsyncRedis.offer ya habia sido agregada >>>>>>>>>>>>>>>>"+ element);
+            //System.out.println("QeueuAsyncRedis.offer ya habia sido agregada >>>>>>>>>>>>>>>>"+ element);
         }
     }
 
@@ -110,8 +109,10 @@ public class QeueuAsyncRedis  extends QueueAsyncAbstract<GreetingPendingTask> {
             if(first.isPresent()){
                 queue.remove(first.get());
                 result = true;
+            }else{
+                System.out.println("QeueuAsyncRedis.remove no habia sido agregada >>>>>>>>>>>>>>>>");
             }
-            System.out.println("QeueuAsyncRedis.remove no habia sido agregada >>>>>>>>>>>>>>>>");
+
         } finally {
             lock.unlock();
         }
